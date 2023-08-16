@@ -37,48 +37,37 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     int currentPageIndex = 0;
-    return
-      Scaffold(
-     bottomNavigationBar: NavigationBar(
-        onDestinationSelected: (int index) {
-          setState(() {
-            currentPageIndex = index;
-          });
-        },
-        selectedIndex: currentPageIndex,
-        destinations: const <Widget>[
-          NavigationDestination(
-            icon: Icon(Icons.work),
-            label: 'Promodoro',
-          ),
-          NavigationDestination(
-            icon: Icon(Icons.bed),
-            label: 'Short Break',
-          ),
-          NavigationDestination(
-            selectedIcon: Icon(Icons.bookmark),
-            icon: Icon(Icons.bookmark_border),
-            label: 'Long Break',
-          ),
-        ],
-      ),
-      body: <Widget>[
-        Container(
-          color: Colors.red,
-          alignment: Alignment.center,
-          child: const CountdownTimerApp(),
-        ),
-        Container(
-          color: Colors.green,
-          alignment: Alignment.center,
-          child: const CountdownTimerApp2(),
-        ),
-        Container(
-          color: Colors.blue,
-          alignment: Alignment.center,
-          child: const Text('Page 3'),
-        ),
-      ][currentPageIndex],
-    );
+    return const CountdownTimerApp();
+    //   Scaffold(
+    //  bottomNavigationBar: NavigationBar(
+    //     onDestinationSelected: (int index) {
+    //       setState(() {
+    //         currentPageIndex = index;
+    //       });
+    //     },
+    //     selectedIndex: currentPageIndex,
+    //     destinations: const <Widget>[
+    //       NavigationDestination(
+    //         icon: Icon(Icons.work),
+    //         label: 'Promodoro',
+    //       ),
+    //       NavigationDestination(
+    //         icon: Icon(Icons.bed),
+    //         label: 'Short Break',
+    //       ),
+    //       NavigationDestination(
+    //         selectedIcon: Icon(Icons.bookmark),
+    //         icon: Icon(Icons.bookmark_border),
+    //         label: 'Long Break',
+    //       ),
+    //     ],
+    //   ),
+    //   body: <Widget>[
+    //     const CountdownTimerApp()
+    //      ,
+    //     const CountdownTimerApp2(),
+    //     const CountdownTimerApp2()
+    //   ][currentPageIndex],
+    // );
   }
 }

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'dart:async';
-
 import '../widgets/custom_button_widget.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 class CountdownTimerApp extends StatefulWidget {
   const CountdownTimerApp({super.key});
@@ -17,6 +17,25 @@ class _CountdownTimerAppState extends State<CountdownTimerApp> {
   Timer? timer;
   bool isPaused = false;
   int currentPageIndex = 0;
+  Future<void> _showNotification() async {
+    const AndroidNotificationDetails androidPlatformChannelSpecifics =
+    AndroidNotificationDetails(
+      'your_channel_id', // Change this to a unique channel ID
+      'Timer Notifications',
+     // 'Notifications for timer completion',
+      importance: Importance.max,
+      priority: Priority.high,
+    );
+    const NotificationDetails platformChannelSpecifics =
+    NotificationDetails(android: androidPlatformChannelSpecifics);
+
+    // await flutterLocalNotificationsPlugin.show(
+    //   0, // Notification ID
+    //   'Timer Completed',
+    //   'Your timer has finished!', // Notification content
+    //   platformChannelSpecifics,
+    // );
+  }
 
   void startTimer() {
     timer = Timer.periodic(const Duration(seconds: 1), (Timer t) {
@@ -67,6 +86,8 @@ class _CountdownTimerAppState extends State<CountdownTimerApp> {
   Widget build(BuildContext context) {
     int minutes = remainingTime ~/ 60;
     int seconds = remainingTime % 60;
+    bool isEditing = true;
+    String text = "Click to Edit";
 
     return Scaffold(
       appBar: AppBar(
@@ -86,7 +107,6 @@ class _CountdownTimerAppState extends State<CountdownTimerApp> {
           print(index);
           if(index == 0)
           {
-            print("ok");
             setState(() {
               remainingTime = 25 * 60;
               print(remainingTime);
@@ -131,10 +151,35 @@ class _CountdownTimerAppState extends State<CountdownTimerApp> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text(
-                '$minutes:${seconds.toString().padLeft(2, '0')}',
-                style:
-                    const TextStyle(fontSize: 40, fontWeight: FontWeight.bold),
+              GestureDetector(
+                onTap: () {
+                  setState(() {
+                    isEditing = true;
+                  });
+                },
+                child: isEditing
+                    ? TextField(
+                  // Replace this with your TextField configuration
+                  decoration: const InputDecoration(
+                    hintText: "Edit the text...",
+                  ),
+                  onChanged: (newText) {
+                    setState(() {
+                      text = newText;
+                    });
+                  },
+                  onEditingComplete: () {
+                    setState(() {
+                      isEditing = false;
+                    });
+                  },
+                )
+                    : Text(text),
+              //   child: Text(
+              //   '$minutes:${seconds.toString().padLeft(2, '0')}',
+              //   style:
+              //   const TextStyle(fontSize: 40, fontWeight: FontWeight.bold),
+              // ),
               ),
               const SizedBox(height: 20),
               CustomButtonWidget(
@@ -154,10 +199,13 @@ class _CountdownTimerAppState extends State<CountdownTimerApp> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text(
-                '$minutes:${seconds.toString().padLeft(2, '0')}',
-                style:
-                    const TextStyle(fontSize: 40, fontWeight: FontWeight.bold),
+              GestureDetector(
+                
+                child: Text(
+                  '$minutes:${seconds.toString().padLeft(2, '0')}',
+                  style:
+                      const TextStyle(fontSize: 40, fontWeight: FontWeight.bold),
+                ),
               ),
               const SizedBox(height: 20),
               // if (!isPaused)

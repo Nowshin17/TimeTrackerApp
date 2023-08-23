@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'dart:async';
+import '../services/notification_service.dart';
 import '../widgets/custom_button_widget.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
@@ -11,32 +12,13 @@ class CountdownTimerApp extends StatefulWidget {
   _CountdownTimerAppState createState() => _CountdownTimerAppState();
 }
 
-
 class _CountdownTimerAppState extends State<CountdownTimerApp> {
   int initialTime = 25 * 60;
   int remainingTime = 25 * 60;
   Timer? timer;
   bool isPaused = false;
   int currentPageIndex = 0;
-  Future<void> _showNotification() async {
-    const AndroidNotificationDetails androidPlatformChannelSpecifics =
-    AndroidNotificationDetails(
-      'your_channel_id', // Change this to a unique channel ID
-      'Timer Notifications',
-     // 'Notifications for timer completion',
-      importance: Importance.max,
-      priority: Priority.high,
-    );
-    const NotificationDetails platformChannelSpecifics =
-    NotificationDetails(android: androidPlatformChannelSpecifics);
-
-    // await flutterLocalNotificationsPlugin.show(
-    //   0, // Notification ID
-    //   'Timer Completed',
-    //   'Your timer has finished!', // Notification content
-    //   platformChannelSpecifics,
-    // );
-  }
+  String? textChange;
 
   void startTimer() {
     timer = Timer.periodic(const Duration(seconds: 1), (Timer t) {
@@ -53,6 +35,11 @@ class _CountdownTimerAppState extends State<CountdownTimerApp> {
         if (remainingTime <= 0) {
           timer?.cancel();
         }
+        // if (remainingTime <= 24 * 60) {
+        //   timer?.cancel();
+        //   NotificationService();
+        //   showNotification();
+        // }
       });
     });
   }
@@ -87,8 +74,6 @@ class _CountdownTimerAppState extends State<CountdownTimerApp> {
   Widget build(BuildContext context) {
     int minutes = remainingTime ~/ 60;
     int seconds = remainingTime % 60;
-    bool isEditing = true;
-    String text = "Click to Edit";
 
     return Scaffold(
       appBar: AppBar(
@@ -99,34 +84,24 @@ class _CountdownTimerAppState extends State<CountdownTimerApp> {
         ),
         backgroundColor: HexColor('#BA4949'),
       ),
-
       bottomNavigationBar: NavigationBar(
         onDestinationSelected: (int index) {
           setState(() {
             currentPageIndex = index;
           });
-          print(index);
-          if(index == 0)
-          {
+          if (index == 0) {
             setState(() {
               remainingTime = 25 * 60;
-              print(remainingTime);
             });
           }
-          if(index == 1)
-          {
-            print("ok");
+          if (index == 1) {
             setState(() {
               remainingTime = 5 * 60;
-               print(remainingTime);
             });
           }
-          if(index == 2)
-          {
-            print("ok");
+          if (index == 2) {
             setState(() {
               remainingTime = 15 * 60;
-              print(remainingTime);
             });
           }
         },
@@ -134,10 +109,10 @@ class _CountdownTimerAppState extends State<CountdownTimerApp> {
         destinations: const <Widget>[
           NavigationDestination(
             icon: Icon(Icons.work),
-            label: 'Promodoro',
+            label: 'Work',
           ),
           NavigationDestination(
-            icon: Icon(Icons.bed),
+            icon: Icon(Icons.bed_outlined),
             label: 'Short Break',
           ),
           NavigationDestination(
@@ -154,33 +129,13 @@ class _CountdownTimerAppState extends State<CountdownTimerApp> {
             children: [
               GestureDetector(
                 onTap: () {
-                  setState(() {
-                    isEditing = true;
-                  });
+                  _showModalDialog(context);
                 },
-                child: isEditing
-                    ? TextField(
-                  // Replace this with your TextField configuration
-                  decoration: const InputDecoration(
-                    hintText: "Edit the text...",
-                  ),
-                  onChanged: (newText) {
-                    setState(() {
-                      text = newText;
-                    });
-                  },
-                  onEditingComplete: () {
-                    setState(() {
-                      isEditing = false;
-                    });
-                  },
-                )
-                    : Text(text),
-              //   child: Text(
-              //   '$minutes:${seconds.toString().padLeft(2, '0')}',
-              //   style:
-              //   const TextStyle(fontSize: 40, fontWeight: FontWeight.bold),
-              // ),
+                child: Text(
+                  '$minutes:${seconds.toString().padLeft(2, '0')}',
+                  style: const TextStyle(
+                      fontSize: 40, fontWeight: FontWeight.bold),
+                ),
               ),
               const SizedBox(height: 20),
               CustomButtonWidget(
@@ -200,13 +155,10 @@ class _CountdownTimerAppState extends State<CountdownTimerApp> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              GestureDetector(
-                
-                child: Text(
-                  '$minutes:${seconds.toString().padLeft(2, '0')}',
-                  style:
-                      const TextStyle(fontSize: 40, fontWeight: FontWeight.bold),
-                ),
+              Text(
+                '$minutes:${seconds.toString().padLeft(2, '0')}',
+                style:
+                    const TextStyle(fontSize: 40, fontWeight: FontWeight.bold),
               ),
               const SizedBox(height: 20),
               // if (!isPaused)
@@ -248,29 +200,56 @@ class _CountdownTimerAppState extends State<CountdownTimerApp> {
           ),
         )
       ][currentPageIndex],
-      // Center(
-      //   child: Column(
-      //     mainAxisAlignment: MainAxisAlignment.center,
-      //     children: [
-      //       Text(
-      //         '$minutes:${seconds.toString().padLeft(2, '0')}',
-      //         style: const TextStyle(fontSize: 40, fontWeight: FontWeight.bold),
-      //       ),
-      //       const SizedBox(height: 20),
-      //       // if (!isPaused)
-      //       CustomButtonWidget(
-      //         buttonName: isPaused ? "START" : "PAUSE",
-      //         onPressed: isPaused ? resumeTimer : pauseTimer,
-      //         buttonColor: Colors.black38,
-      //       ),
-      //       if (remainingTime == 0)
-      //         const Text(
-      //           'Time\'s up!',
-      //           style: TextStyle(fontSize: 24, color: Colors.red),
-      //         ),
-      //     ],
-      //   ),
-      // ),
+    );
+  }
+
+  void _showModalDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Center(child: Text('Change time')),
+          content: TextField(
+              // keyboardType: TextInputType.datetime,
+              keyboardType: TextInputType.number,
+              maxLength: 5,
+              style:
+                  const TextStyle(decorationStyle: TextDecorationStyle.dotted),
+              textAlign: TextAlign.center,
+              decoration: const InputDecoration(
+                  focusColor: Colors.blue,
+                  alignLabelWithHint: true,
+                  hintText: "10",
+                  hintStyle: TextStyle(
+                    color: Colors.grey,
+                    fontSize: 20,
+                  )),
+              onChanged: (newText) {
+                textChange = newText;
+              },
+              onEditingComplete: () {}),
+          //Text('This is a modal dialog.'),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop(); // Close the dialog
+              },
+              child: const Text('Close'),
+            ),
+            TextButton(
+              onPressed: () {
+                setState(() {
+                  var updatedTime = textChange ?? "";
+                  int minutes = int.tryParse(updatedTime) ?? 0;
+                  remainingTime = minutes * 60;
+                });
+                Navigator.of(context).pop(); // Close the dialog
+              },
+              child: const Text('Submit'),
+            ),
+          ],
+        );
+      },
     );
   }
 }

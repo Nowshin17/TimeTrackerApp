@@ -1,7 +1,10 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:hexcolor/hexcolor.dart';
-import 'package:promofocus/screens/page1.dart';
+import 'package:promofocus/screens/homePage.dart';
+import 'package:promofocus/screens/splashScreen.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -39,8 +42,42 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: HexColor('#BA4949')),
         useMaterial3: true,
       ),
-      home: const MyHomePage(title: '',),
+      home: SplashScreenPage(),
+      //const SplashScreen(),
+      // routes: {
+      //   // Define other routes as needed for your app
+      //   '/home': (context) => const MyHomePage(title: '',)
+      //
+      //   // ...
+      // },
+      //const MyHomePage(title: '',),
     );
+  }
+}
+
+class SplashScreenPage extends StatefulWidget {
+  const SplashScreenPage({super.key});
+
+  @override
+  _SplashScreenPageState createState() => _SplashScreenPageState();
+}
+
+class _SplashScreenPageState extends State<SplashScreenPage> {
+  @override
+  void initState() {
+    super.initState();
+    // Add a delay before navigating to the main screen
+    Timer(const Duration(seconds: 3), () {
+      // Navigate to the main screen
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute(builder: (context) => const MyHomePage(title: '',)),
+      );
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return const SplashScreen(); // Display the SplashScreen widget
   }
 }
 
@@ -58,36 +95,5 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     int currentPageIndex = 0;
     return const CountdownTimerApp();
-    //   Scaffold(
-    //  bottomNavigationBar: NavigationBar(
-    //     onDestinationSelected: (int index) {
-    //       setState(() {
-    //         currentPageIndex = index;
-    //       });
-    //     },
-    //     selectedIndex: currentPageIndex,
-    //     destinations: const <Widget>[
-    //       NavigationDestination(
-    //         icon: Icon(Icons.work),
-    //         label: 'Promodoro',
-    //       ),
-    //       NavigationDestination(
-    //         icon: Icon(Icons.bed),
-    //         label: 'Short Break',
-    //       ),
-    //       NavigationDestination(
-    //         selectedIcon: Icon(Icons.bookmark),
-    //         icon: Icon(Icons.bookmark_border),
-    //         label: 'Long Break',
-    //       ),
-    //     ],
-    //   ),
-    //   body: <Widget>[
-    //     const CountdownTimerApp()
-    //      ,
-    //     const CountdownTimerApp2(),
-    //     const CountdownTimerApp2()
-    //   ][currentPageIndex],
-    // );
   }
 }

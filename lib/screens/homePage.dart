@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:promofocus/screens/slide_drawer.dart';
 import 'dart:async';
 import '../services/notification_service.dart';
 import '../widgets/custom_button_widget.dart';
@@ -19,6 +20,11 @@ class _CountdownTimerAppState extends State<CountdownTimerApp> {
   bool isPaused = false;
   int currentPageIndex = 0;
   String? textChange;
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+
+  void _openEndDrawer() {
+    _scaffoldKey.currentState?.openEndDrawer();
+  }
 
   void startTimer() {
     timer = Timer.periodic(const Duration(seconds: 1), (Timer t) {
@@ -34,11 +40,19 @@ class _CountdownTimerAppState extends State<CountdownTimerApp> {
         }
         if (remainingTime <= 0) {
           timer?.cancel();
+          NotificationApi.showNotification(
+            title: "Time\'s up!",
+            body: "Your time is up! ",
+            payload: "sarag",
+          );
         }
         // if (remainingTime <= 24 * 60) {
         //   timer?.cancel();
-        //   NotificationService();
-        //   showNotification();
+        //   NotificationApi.showNotification(
+        //     title: "Time\'s up!",
+        //     body: "Your time is up! Now you can take a short leave. ",
+        //     payload: "sarag",
+        //   );
         // }
       });
     });
@@ -80,10 +94,27 @@ class _CountdownTimerAppState extends State<CountdownTimerApp> {
         centerTitle: true,
         title: const Text(
           'PromoFocus',
-          style: TextStyle(color: Colors.white, fontWeight: FontWeight.normal),
+          style: TextStyle(
+            color: Colors.white,
+            fontWeight: FontWeight.normal,
+          ),
         ),
+        elevation: 2.0,
         backgroundColor: HexColor('#BA4949'),
+        // leading: IconButton(
+        //   icon: const Icon(
+        //     Icons.menu, // The hamburger icon
+        //     color: Colors.white, // Change this color to your desired color
+        //   ),
+        //   onPressed: () {
+        //     _openEndDrawer();
+        //   },
+        // ),
       ),
+      drawer: const SizedBox(
+        child: CustomDrawerWidget(),
+      ),
+      backgroundColor: HexColor('#BA4949'),
       bottomNavigationBar: NavigationBar(
         onDestinationSelected: (int index) {
           setState(() {
@@ -134,14 +165,16 @@ class _CountdownTimerAppState extends State<CountdownTimerApp> {
                 child: Text(
                   '$minutes:${seconds.toString().padLeft(2, '0')}',
                   style: const TextStyle(
-                      fontSize: 40, fontWeight: FontWeight.bold),
+                      fontSize: 40,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white),
                 ),
               ),
               const SizedBox(height: 20),
               CustomButtonWidget(
                 buttonName: isPaused ? "START" : "PAUSE",
                 onPressed: isPaused ? resumeTimer : pauseTimer,
-                buttonColor: Colors.black38,
+                buttonColor: Colors.white38,
               ),
               if (remainingTime == 0)
                 const Text(
@@ -157,15 +190,17 @@ class _CountdownTimerAppState extends State<CountdownTimerApp> {
             children: [
               Text(
                 '$minutes:${seconds.toString().padLeft(2, '0')}',
-                style:
-                    const TextStyle(fontSize: 40, fontWeight: FontWeight.bold),
+                style: const TextStyle(
+                    fontSize: 40,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white),
               ),
               const SizedBox(height: 20),
               // if (!isPaused)
               CustomButtonWidget(
                 buttonName: isPaused ? "START" : "PAUSE",
                 onPressed: isPaused ? resumeTimer : pauseTimer,
-                buttonColor: Colors.cyanAccent,
+                buttonColor: Colors.brown,
               ),
               if (remainingTime == 0)
                 const Text(
@@ -181,8 +216,10 @@ class _CountdownTimerAppState extends State<CountdownTimerApp> {
             children: [
               Text(
                 '$minutes:${seconds.toString().padLeft(2, '0')}',
-                style:
-                    const TextStyle(fontSize: 40, fontWeight: FontWeight.bold),
+                style: const TextStyle(
+                    fontSize: 40,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white),
               ),
               const SizedBox(height: 20),
               // if (!isPaused)

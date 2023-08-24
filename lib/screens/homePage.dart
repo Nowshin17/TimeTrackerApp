@@ -179,7 +179,7 @@ class _CountdownTimerAppState extends State<CountdownTimerApp> {
               if (remainingTime == 0)
                 const Text(
                   'Time\'s up!',
-                  style: TextStyle(fontSize: 24, color: Colors.red),
+                  style: TextStyle(fontSize: 24, color: Colors.white),
                 ),
             ],
           ),
@@ -231,7 +231,7 @@ class _CountdownTimerAppState extends State<CountdownTimerApp> {
               if (remainingTime == 0)
                 const Text(
                   'Time\'s up!',
-                  style: TextStyle(fontSize: 24, color: Colors.red),
+                  style: TextStyle(fontSize: 24, color: Colors.white),
                 ),
             ],
           ),

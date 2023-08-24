@@ -35,14 +35,14 @@ class CustomDrawerWidgetState extends State<CustomDrawerWidget> {
                 ),
                 const SizedBox(height: 12),
                 Text(
-                  "Name",
+                  "Nowshin Chowdhury",
                   style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                     color: Colors.white,
                   ),
                   softWrap: true,
                 ),
                 Text(
-                  "Email",
+                  "ankitachowdhury017@gmail.com",
                   style: Theme.of(context).textTheme.bodySmall!.copyWith(
                     color: Colors.white,
                   ),
@@ -55,10 +55,10 @@ class CustomDrawerWidgetState extends State<CustomDrawerWidget> {
           ListTile(
             leading: const Icon(
               Icons.person_outline,
-              color: Colors.white,
+              color: Colors.black,
             ),
             title: const Text(
-              "DrawerText.profile",
+              "User Profile",
             ),
             onTap: () {
               // Navigator.pushNamed(
@@ -94,8 +94,8 @@ class CustomDrawerWidgetState extends State<CustomDrawerWidget> {
 
           // const Divider(),
           ListTile(
-            leading: Icon(Icons.logout, color: Colors.white),
-            title: const Text('Logout'),
+            leading: const Icon(Icons.logout, color: Colors.black),
+            title: const Text('Login'),
             onTap: () {
               // SharedPrefs.clear();
               // Navigator.pushNamed(

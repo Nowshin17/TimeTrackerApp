@@ -9,12 +9,9 @@ class CustomDrawerWidget extends StatefulWidget {
 }
 
 class CustomDrawerWidgetState extends State<CustomDrawerWidget> {
-
   @override
   Widget build(BuildContext context) {
-
-
-    return  Drawer(
+    return Drawer(
       child: ListView(
         shrinkWrap: true,
         children: <Widget>[
@@ -22,43 +19,44 @@ class CustomDrawerWidgetState extends State<CustomDrawerWidget> {
             alignment: Alignment.center,
             color: HexColor('#BA4949'),
             padding: const EdgeInsets.symmetric(vertical: 40.0),
-            child: Column(
+            child: const Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                const CircleAvatar(
-                  radius: 50,
+                CircleAvatar(
+                  radius: 60,
                   child: Icon(
                     Icons.person,
                     size: 40,
                   ),
                 ),
-                const SizedBox(height: 12),
-                Text(
-                  "Nowshin Chowdhury",
-                  style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                    color: Colors.white,
-                  ),
-                  softWrap: true,
-                ),
-                Text(
-                  "ankitachowdhury017@gmail.com",
-                  style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                    color: Colors.white,
-                  ),
-                  softWrap: true,
-                ),
+                SizedBox(height: 12),
+                // Text(
+                //   "Nowshin Chowdhury",
+                //   style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                //     color: Colors.white,
+                //   ),
+                //   softWrap: true,
+                // ),
+                // Text(
+                //   "ankitachowdhury017@gmail.com",
+                //   style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                //     color: Colors.white,
+                //   ),
+                //   softWrap: true,
+                // ),
               ],
             ),
           ),
           const SizedBox(height: 12),
           ListTile(
             leading: const Icon(
-              Icons.person_outline,
+              Icons.settings,
               color: Colors.black,
             ),
             title: const Text(
-              "User Profile",
+              "Settings",
+              style: TextStyle(fontWeight: FontWeight.bold),
             ),
             onTap: () {
               // Navigator.pushNamed(
@@ -93,17 +91,17 @@ class CustomDrawerWidgetState extends State<CustomDrawerWidget> {
           // ),
 
           // const Divider(),
-          ListTile(
-            leading: const Icon(Icons.logout, color: Colors.black),
-            title: const Text('Login'),
-            onTap: () {
-              // SharedPrefs.clear();
-              // Navigator.pushNamed(
-              //   context,
-              //   RouteConstantName.authScreen,
-              // );
-            },
-          ),
+          // ListTile(
+          //   leading: const Icon(Icons.logout, color: Colors.black),
+          //   title: const Text('Login'),
+          //   onTap: () {
+          //     // SharedPrefs.clear();
+          //     // Navigator.pushNamed(
+          //     //   context,
+          //     //   RouteConstantName.authScreen,
+          //     // );
+          //   },
+          // ),
         ],
       ),
     );

@@ -26,10 +26,13 @@ class _CountdownTimerAppState extends State<CountdownTimerApp> {
     _scaffoldKey.currentState?.openEndDrawer();
   }
 
+
   void startTimer() {
     timer = Timer.periodic(const Duration(seconds: 1), (Timer t) {
       setState(() {
         if (!isPaused && remainingTime > 0) {
+
+
           remainingTime--;
         }
         if (remainingTime == 8 * 60) {
@@ -154,34 +157,47 @@ class _CountdownTimerAppState extends State<CountdownTimerApp> {
         ],
       ),
       body: <Widget>[
-        Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              GestureDetector(
-                onTap: () {
-                  _showModalDialog(context);
-                },
-                child: Text(
-                  '$minutes:${seconds.toString().padLeft(2, '0')}',
-                  style: const TextStyle(
-                      fontSize: 40,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white),
+        Padding(
+          padding: const EdgeInsets.only(left: 40,right: 40,top:40,bottom: 40),
+          child: Center(
+            child: Column(
+              //mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                GestureDetector(
+                  onTap: () {
+                    _showModalDialog(context);
+                  },
+                  child: Text(
+                    '$minutes:${seconds.toString().padLeft(2, '0')}',
+                    style: const TextStyle(
+                        fontSize: 40,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white),
+                  ),
                 ),
-              ),
-              const SizedBox(height: 20),
-              CustomButtonWidget(
-                buttonName: isPaused ? "START" : "PAUSE",
-                onPressed: isPaused ? resumeTimer : pauseTimer,
-                buttonColor: Colors.white38,
-              ),
-              if (remainingTime == 0)
-                const Text(
-                  'Time\'s up!',
-                  style: TextStyle(fontSize: 24, color: Colors.white),
+                const SizedBox(height: 20),
+                CustomButtonWidget(
+                  buttonName: isPaused ? "START" : "PAUSE",
+                  onPressed: isPaused ? resumeTimer : pauseTimer,
+                  buttonColor: Colors.white38,
                 ),
-            ],
+                if (remainingTime == 0)
+                  const Text(
+                    'Time\'s up!',
+                    style: TextStyle(fontSize: 24, color: Colors.white),
+                  ),
+                const SizedBox(height: 20),
+                CustomButtonWidget(icons: Icons.add,
+                  buttonName: "Add Task",
+                 // onPressed: ,
+                  buttonColor: Colors.brown, onPressed: () {  },
+                ),
+                Visibility(visible: true ,child: Container(
+
+                ))
+              ]
+
+            ),
           ),
         ),
         Center(

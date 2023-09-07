@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:promofocus/screens/slide_drawer.dart';
+import 'package:promofocus/screens/taskmodel.dart';
 import 'dart:async';
 import '../services/notification_service.dart';
 import '../widgets/custom_button_widget.dart';
@@ -18,21 +19,16 @@ class _CountdownTimerAppState extends State<CountdownTimerApp> {
   int remainingTime = 25 * 60;
   Timer? timer;
   bool isPaused = false;
+  bool isAddTask = false;
   int currentPageIndex = 0;
   String? textChange;
+  List<Task> taskList = [];
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-
-  void _openEndDrawer() {
-    _scaffoldKey.currentState?.openEndDrawer();
-  }
-
 
   void startTimer() {
     timer = Timer.periodic(const Duration(seconds: 1), (Timer t) {
       setState(() {
         if (!isPaused && remainingTime > 0) {
-
-
           remainingTime--;
         }
         if (remainingTime == 8 * 60) {
@@ -160,43 +156,134 @@ class _CountdownTimerAppState extends State<CountdownTimerApp> {
         Padding(
           padding: const EdgeInsets.only(left: 40,right: 40,top:40,bottom: 40),
           child: Center(
-            child: Column(
-              //mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                GestureDetector(
-                  onTap: () {
-                    _showModalDialog(context);
-                  },
-                  child: Text(
-                    '$minutes:${seconds.toString().padLeft(2, '0')}',
-                    style: const TextStyle(
-                        fontSize: 40,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white),
+            child: SingleChildScrollView(
+              scrollDirection: Axis.vertical,
+              child: Column(
+                //mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  GestureDetector(
+                    onTap: () {
+                      _showModalDialog(context);
+                    },
+                    child: Text(
+                      '$minutes:${seconds.toString().padLeft(2, '0')}',
+                      style: const TextStyle(
+                          fontSize: 40,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white),
+                    ),
                   ),
-                ),
-                const SizedBox(height: 20),
-                CustomButtonWidget(
-                  buttonName: isPaused ? "START" : "PAUSE",
-                  onPressed: isPaused ? resumeTimer : pauseTimer,
-                  buttonColor: Colors.white38,
-                ),
-                if (remainingTime == 0)
-                  const Text(
-                    'Time\'s up!',
-                    style: TextStyle(fontSize: 24, color: Colors.white),
+                  const SizedBox(height: 20),
+                  CustomButtonWidget(
+                    buttonName: isPaused ? "START" : "PAUSE",
+                    onPressed: isPaused ? resumeTimer : pauseTimer,
+                    buttonColor: Colors.white38,
                   ),
-                const SizedBox(height: 20),
-                CustomButtonWidget(icons: Icons.add,
-                  buttonName: "Add Task",
-                 // onPressed: ,
-                  buttonColor: Colors.brown, onPressed: () {  },
-                ),
-                Visibility(visible: true ,child: Container(
+                  if (remainingTime == 0)
+                    const Text(
+                      'Time\'s up!',
+                      style: TextStyle(fontSize: 24, color: Colors.white),
+                    ),
+                  const SizedBox(height: 20),
+                  CustomButtonWidget(icons: Icons.add,
+                    buttonName: "Add Task",
+                   // onPressed: ,
+                    buttonColor: Colors.brown, onPressed: () {
+                    setState(() {
+                      isAddTask = true;
+                    });
+                    },
+                  ),
+                  // Visibility(visible: true ,
+                  //   child:
+                  //  Column(
+                  //    children: [
+                  //      const SizedBox(height: 20),
+                  //      Container(
+                  //        width:  300,
+                  //        height: 50,
+                  //        padding: const EdgeInsets.only(left: 10,right: 10, bottom: 15,top: 10),
+                  //        decoration: BoxDecoration(
+                  //          color: Colors.white70,
+                  //          borderRadius: BorderRadius.circular(10.0),
+                  //        ),
+                  //      ),
+                  //    ],
+                  //  )
+                  // ),
+                  const SizedBox(height: 20),
+                  Visibility(visible: isAddTask ,child: Container(
+                    padding: const EdgeInsets.only(left: 10,right: 10, bottom: 15,top: 10),
+                    decoration: BoxDecoration(
+                      color: Colors.white70,
+                      borderRadius: BorderRadius.circular(10.0),
+                    ),
+                    child: Column(
+                      children: [
+                        TextField(
+                            keyboardType: TextInputType.text,
+                            style:
+                            const TextStyle(
+                                decorationStyle: TextDecorationStyle.dashed),
+                            textAlign: TextAlign.center,
+                            decoration: const InputDecoration(
+                                border: InputBorder.none,
+                                focusColor: Colors.blue,
+                                alignLabelWithHint: true,
+                                hintText: "What Are you Working On?",
+                                hintStyle: TextStyle(
+                                  color: Colors.grey,
+                                  fontSize: 20,
+                                )),
+                            onChanged: (newText) {
+                              textChange = newText;
+                            },
+                            onEditingComplete: () {}
+                        ),
+                        Row(mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            ElevatedButton(
+                              style: ButtonStyle(
+                              //  backgroundColor: MaterialStateProperty.all<Color>(Colors.red), // Change the button color
+                                shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                                  RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(10.0), // Change the border shape
+                                  ),
+                                ),
+                              ),
+                              onPressed: () {
+                                // Handle button click here
+                              },
+                              child: const Text('cancel'),
+                            ),
+                            const SizedBox(width: 20),
+                            ElevatedButton(
+                              onPressed: () {
+                                // Handle button click here
+                              },
+                              style: ButtonStyle(
+                                //  backgroundColor: MaterialStateProperty.all<Color>(Colors.red), // Change the button color
+                                shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                                  RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(10.0), // Change the border shape
+                                  ),
+                                ),
+                              ),
+                              child: const Text('save' ,style: TextStyle(color: Colors.cyan)),
+                            ),
+                          ],
+                        )
+                      ],
+                    ),
+                  ))
+                  ,
+                  // Visibility(
+                  //   visible: true,
+                  //   child: buildTaskList(),
+                  // )
+                ]
 
-                ))
-              ]
-
+              ),
             ),
           ),
         ),
@@ -305,4 +392,36 @@ class _CountdownTimerAppState extends State<CountdownTimerApp> {
       },
     );
   }
+
+  Widget buildTaskList() {
+    return ListView.builder(
+      itemCount: taskList.length,
+      itemBuilder: (context, index) {
+        final task = taskList[index];
+        return ListTile(
+          title: Text(task.name),
+          trailing: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              IconButton(
+                icon: const Icon(Icons.edit),
+                onPressed: () {
+                  // Implement edit task logic here
+                },
+              ),
+              IconButton(
+                icon: const Icon(Icons.delete),
+                onPressed: () {
+                  setState(() {
+                    taskList.removeAt(index);
+                  });
+                },
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
 }

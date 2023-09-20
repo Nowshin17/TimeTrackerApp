@@ -9,6 +9,8 @@ class CustomDrawerWidget extends StatefulWidget {
 }
 
 class CustomDrawerWidgetState extends State<CustomDrawerWidget> {
+
+
   @override
   Widget build(BuildContext context) {
     return Drawer(
@@ -49,6 +51,7 @@ class CustomDrawerWidgetState extends State<CustomDrawerWidget> {
             ),
           ),
           const SizedBox(height: 12),
+
           ListTile(
             leading: const Icon(
               Icons.settings,
@@ -59,35 +62,20 @@ class CustomDrawerWidgetState extends State<CustomDrawerWidget> {
               style: TextStyle(fontWeight: FontWeight.bold),
             ),
             onTap: () {
+             // buildPopupMenuButton();
+             // _showModalDialog(context);
               // Navigator.pushNamed(
               //   context,
               //   RouteConstantName.profile,
               // );
             },
+
           ),
-          // ListTile(
-          //   leading:
-          //   Icon(Icons.info_outline, color: ColorCode.navIconColor),
-          //   title: const Text("pl"),
-          //   onTap: () {
-          //     List data = ["1.0.0", "1.0.0", "1.1.0"];
-          //    // showSimpleModal(context, data);
-          //   },
-          // ),
+
           // ListTile(
           //   leading: Icon(Icons.star, color: ColorCode.navIconColor),
           //   title: const Text('Rating'),
           //   onTap: () {},
-          // ),
-          // ListTile(
-          //   leading: Icon(Icons.delete, color: ColorCode.navIconColor),
-          //   title: const Text('Delete Account'),
-          //   onTap: () {
-          //     Navigator.pushNamed(
-          //       context,
-          //       RouteConstantName.deleteAccount,
-          //     );
-          //   },
           // ),
 
           // const Divider(),
@@ -106,7 +94,54 @@ class CustomDrawerWidgetState extends State<CustomDrawerWidget> {
       ),
     );
   }
-
+  // PopupMenuButton<String> buildPopupMenuButton() {
+  //   return PopupMenuButton(
+  //     elevation: 4,
+  //     padding: const EdgeInsets.all(15),
+  //     child: const Icon(Icons.circle),
+  //     // icon: const Icon(Icons.circle),
+  //     onSelected: (String option) {
+  //       // switch (option) {
+  //       //   case Dashboard.reload:
+  //       //     widget.onReload();
+  //       //     break;
+  //       //   case Dashboard.minimize:
+  //       //   case Dashboard.show:
+  //       //     _handleTap();
+  //       //     break;
+  //       // }
+  //     },
+  //     itemBuilder: (BuildContext context) {
+  //       return [
+  //         buildMenuItem(
+  //           title:
+  //           "ol",
+  //           iconData: Icons.refresh,
+  //         ),
+  //         buildMenuItem(
+  //           title: 'ok',
+  //           iconData: Icons.visibility_off_outlined,
+  //         ),
+  //
+  //       ];
+  //     },
+  //   );
+  // }
+  // PopupMenuItem<String> buildMenuItem({
+  //   required String title,
+  //   required IconData iconData,
+  // }) {
+  //   return PopupMenuItem<String>(
+  //     value: title,
+  //     child: Row(
+  //       children: [
+  //         Icon(iconData),
+  //         const SizedBox(width: 8),
+  //         Text(title),
+  //       ],
+  //     ),
+  //   );
+  // }
   // void showSimpleModal(BuildContext context, data) {
   //
   //   showDialog(

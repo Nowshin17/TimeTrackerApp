@@ -166,8 +166,8 @@ class _CountdownTimerAppState extends State<CountdownTimerApp> {
             child: SingleChildScrollView(
               scrollDirection: Axis.vertical,
               child: Column(
-                //mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                mainAxisAlignment: MainAxisAlignment.center,
+                 // crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   GestureDetector(
                     onTap: () {

@@ -6,6 +6,8 @@ import 'dart:async';
 import '../services/notification_service.dart';
 import '../widgets/custom_button_widget.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
 
 class CountdownTimerApp extends StatefulWidget {
   const CountdownTimerApp({super.key});
@@ -25,6 +27,22 @@ class _CountdownTimerAppState extends State<CountdownTimerApp> {
   List<String> taskList = [];
   TextEditingController controllerTasks = TextEditingController();
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+
+  Future<void> saveTasks(List<String> tasks) async {
+    print("saved");
+    final prefs1 = await SharedPreferences.getInstance();
+    print("l");
+    // prefs.setStringList('tasks', tasks);
+    // print("l2:");
+    // print(prefs.getStringList('tasks'));
+  }
+  Future<List<String>> loadTasks() async {
+    print("load");
+    final prefs = await SharedPreferences.getInstance();
+    final savedTasks = prefs.getStringList('tasks');
+    print(savedTasks);
+    return savedTasks ?? []; // Return an empty list if no tasks are saved
+  }
 
   void startTimer() {
     timer = Timer.periodic(const Duration(seconds: 1), (Timer t) {
@@ -76,6 +94,12 @@ class _CountdownTimerAppState extends State<CountdownTimerApp> {
   void initState() {
     super.initState();
     startTimer();
+    print("Init");
+    loadTasks().then((tasks) {
+      setState(() {
+        taskList = tasks;
+      });
+    });
   }
 
   @override
@@ -203,6 +227,7 @@ class _CountdownTimerAppState extends State<CountdownTimerApp> {
                     },
                   ),
                   const SizedBox(height: 20),
+
                   Visibility(visible: isAddTask ,child: Container(
                     padding: const EdgeInsets.only(left: 10,right: 10, bottom: 15,top: 10),
                     decoration: BoxDecoration(
@@ -236,7 +261,6 @@ class _CountdownTimerAppState extends State<CountdownTimerApp> {
                           children: [
                             ElevatedButton(
                               style: ButtonStyle(
-                              //  backgroundColor: MaterialStateProperty.all<Color>(Colors.red), // Change the button color
                                 shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                                   RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(10.0), // Change the border shape
@@ -253,8 +277,11 @@ class _CountdownTimerAppState extends State<CountdownTimerApp> {
                               onPressed: () {
                                 if(controllerTasks != null)
                                   {
+
                                     taskList.add(controllerTasks.text);
+                                    saveTasks(taskList);
                                     controllerTasks.clear();
+
                                   }
                               },
                               style: ButtonStyle(

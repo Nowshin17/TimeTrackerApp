@@ -8,7 +8,6 @@ import '../widgets/custom_button_widget.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-
 class CountdownTimerApp extends StatefulWidget {
   const CountdownTimerApp({super.key});
 
@@ -34,12 +33,14 @@ class _CountdownTimerAppState extends State<CountdownTimerApp> {
     prefs.setStringList('tasks', tasks);
     print(prefs.getStringList('tasks'));
   }
+
   Future<List<String>> loadTasks() async {
     print("load");
     final prefs = await SharedPreferences.getInstance();
     final savedTasks = prefs.getStringList('tasks');
     return savedTasks ?? [];
   }
+
   void removeTasks(String task) async {
     print("Remove");
     print(task);
@@ -53,7 +54,6 @@ class _CountdownTimerAppState extends State<CountdownTimerApp> {
       savedTasks.remove(task); // Remove the task from the list
       await prefs.setStringList('tasks', savedTasks); // Save the updated list
     }
-
   }
 
   void startTimer() {
@@ -76,14 +76,6 @@ class _CountdownTimerAppState extends State<CountdownTimerApp> {
             payload: "sarag",
           );
         }
-        // if (remainingTime <= 24 * 60) {
-        //   timer?.cancel();
-        //   NotificationApi.showNotification(
-        //     title: "Time\'s up!",
-        //     body: "Your time is up! Now you can take a short leave. ",
-        //     payload: "sarag",
-        //   );
-        // }
       });
     });
   }
@@ -106,7 +98,6 @@ class _CountdownTimerAppState extends State<CountdownTimerApp> {
   void initState() {
     super.initState();
     startTimer();
-    print("Init");
     loadTasks().then((tasks) {
       setState(() {
         taskList = tasks;
@@ -137,15 +128,6 @@ class _CountdownTimerAppState extends State<CountdownTimerApp> {
         ),
         elevation: 2.0,
         backgroundColor: HexColor('#BA4949'),
-        // leading: IconButton(
-        //   icon: const Icon(
-        //     Icons.menu, // The hamburger icon
-        //     color: Colors.white, // Change this color to your desired color
-        //   ),
-        //   onPressed: () {
-        //     _openEndDrawer();
-        //   },
-        // ),
       ),
       drawer: const SizedBox(
         child: CustomDrawerWidget(),
@@ -160,21 +142,18 @@ class _CountdownTimerAppState extends State<CountdownTimerApp> {
             setState(() {
               isPaused = true;
               remainingTime = 25 * 60;
-
             });
           }
           if (index == 1) {
             setState(() {
               isPaused = true;
               remainingTime = 5 * 60;
-
             });
           }
           if (index == 2) {
             setState(() {
               isPaused = true;
               remainingTime = 15 * 60;
-
             });
           }
         },
@@ -197,128 +176,147 @@ class _CountdownTimerAppState extends State<CountdownTimerApp> {
       ),
       body: <Widget>[
         Padding(
-          padding: const EdgeInsets.only(left: 40,right: 40,top:40,bottom: 40),
+          padding:
+              const EdgeInsets.only(left: 40, right: 40, top: 40, bottom: 40),
           child: Center(
             child: SingleChildScrollView(
               scrollDirection: Axis.vertical,
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                 // crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  GestureDetector(
-                    onTap: () {
-                      _showModalDialog(context);
-                    },
-                    child: Text(
-                      '$minutes:${seconds.toString().padLeft(2, '0')}',
-                      style: const TextStyle(
-                          fontSize: 40,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white),
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  // crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    GestureDetector(
+                      onTap: () {
+                        _showModalDialog(context);
+                      },
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            '$minutes:${seconds.toString().padLeft(2, '0')}',
+                            style: const TextStyle(
+                                fontSize: 40,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white),
+                          ),
+                          const SizedBox(
+                            width: 10,
+                          ),
+                          const Icon(
+                            Icons
+                                .edit, // This uses a built-in Material Icons icon
+                            color: Colors.white, // Set the color of the icon
+                            size: 30.0, // Set the size of the icon
+                          )
+                        ],
+                      ),
                     ),
-                  ),
-                  const SizedBox(height: 20),
-                  CustomButtonWidget(
-                    buttonName: isPaused ? "START" : "PAUSE",
-                    onPressed: isPaused ? resumeTimer : pauseTimer,
-                    buttonColor: Colors.white38,
-                  ),
-                  if (remainingTime == 0)
-                    const Text(
-                      'Time\'s up!',
-                      style: TextStyle(fontSize: 24, color: Colors.white),
+                    const SizedBox(height: 20),
+                    CustomButtonWidget(
+                      buttonName: isPaused ? "START" : "PAUSE",
+                      onPressed: isPaused ? resumeTimer : pauseTimer,
+                      buttonColor: Colors.white38,
                     ),
-                  const SizedBox(height: 20),
-                  CustomButtonWidget(icons: Icons.add,
-                    buttonName: "Add Task",
-                   // onPressed: ,
-                    buttonColor: Colors.brown, onPressed: () {
-                    setState(() {
-                      isAddTask = true;
-                    });
-                    },
-                  ),
-                  const SizedBox(height: 20),
-
-                  Visibility(visible: isAddTask ,child: Container(
-                    padding: const EdgeInsets.only(left: 10,right: 10, bottom: 15,top: 10),
-                    decoration: BoxDecoration(
-                      color: Colors.white70,
-                      borderRadius: BorderRadius.circular(10.0),
+                    if (remainingTime == 0)
+                      const Text(
+                        'Time\'s up!',
+                        style: TextStyle(fontSize: 24, color: Colors.white),
+                      ),
+                    const SizedBox(height: 20),
+                    CustomButtonWidget(
+                      icons: Icons.add,
+                      buttonName: "Add Task",
+                      // onPressed: ,
+                      buttonColor: Colors.brown,
+                      onPressed: () {
+                        setState(() {
+                          isAddTask = true;
+                        });
+                      },
                     ),
-                    child: Column(
-                      children: [
-                        TextField(
-                            controller: controllerTasks,
-                            keyboardType: TextInputType.text,
-                            style:
-                            const TextStyle(
-                                decorationStyle: TextDecorationStyle.dashed),
-                            textAlign: TextAlign.center,
-                            decoration: const InputDecoration(
-                                border: InputBorder.none,
-                                focusColor: Colors.blue,
-                                alignLabelWithHint: true,
-                                hintText: "What Are you Working On?",
-                                hintStyle: TextStyle(
-                                  color: Colors.grey,
-                                  fontSize: 20,
-                                )),
-                            onChanged: (newText) {
-                              textChange = newText;
-                            },
-                            onEditingComplete: () {}
-                        ),
-                        Row(mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            ElevatedButton(
-                              style: ButtonStyle(
-                                shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                                  RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(10.0), // Change the border shape
+                    const SizedBox(height: 20),
+                    Visibility(
+                        visible: isAddTask,
+                        child: Container(
+                          padding: const EdgeInsets.only(
+                              left: 10, right: 10, bottom: 15, top: 10),
+                          decoration: BoxDecoration(
+                            color: Colors.white70,
+                            borderRadius: BorderRadius.circular(10.0),
+                          ),
+                          child: Column(
+                            children: [
+                              TextField(
+                                  controller: controllerTasks,
+                                  keyboardType: TextInputType.text,
+                                  style: const TextStyle(
+                                      decorationStyle:
+                                          TextDecorationStyle.dashed),
+                                  textAlign: TextAlign.center,
+                                  decoration: const InputDecoration(
+                                      border: InputBorder.none,
+                                      focusColor: Colors.blue,
+                                      alignLabelWithHint: true,
+                                      hintText: "What Are you Working On?",
+                                      hintStyle: TextStyle(
+                                        color: Colors.grey,
+                                        fontSize: 20,
+                                      )),
+                                  onChanged: (newText) {
+                                    textChange = newText;
+                                  },
+                                  onEditingComplete: () {}),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  ElevatedButton(
+                                    style: ButtonStyle(
+                                      shape: MaterialStateProperty.all<
+                                          RoundedRectangleBorder>(
+                                        RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(
+                                              10.0), // Change the border shape
+                                        ),
+                                      ),
+                                    ),
+                                    onPressed: () {
+                                      // Handle button click here
+                                    },
+                                    child: const Text('cancel'),
                                   ),
-                                ),
-                              ),
-                              onPressed: () {
-                                // Handle button click here
-                              },
-                              child: const Text('cancel'),
-                            ),
-                            const SizedBox(width: 20),
-                            ElevatedButton(
-                              onPressed: () async {
-                                if(controllerTasks != null)
-                                  {
-
-                                    taskList.add(controllerTasks.text);
-                                    saveTasks(taskList);
-                                    controllerTasks.clear();
-
-                                  }
-                              },
-                              style: ButtonStyle(
-                                //  backgroundColor: MaterialStateProperty.all<Color>(Colors.red), // Change the button color
-                                shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                                  RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(10.0), // Change the border shape
+                                  const SizedBox(width: 20),
+                                  ElevatedButton(
+                                    onPressed: () async {
+                                      if (controllerTasks != null) {
+                                        taskList.add(controllerTasks.text);
+                                        saveTasks(taskList);
+                                        controllerTasks.clear();
+                                      }
+                                    },
+                                    style: ButtonStyle(
+                                      //  backgroundColor: MaterialStateProperty.all<Color>(Colors.red), // Change the button color
+                                      shape: MaterialStateProperty.all<
+                                          RoundedRectangleBorder>(
+                                        RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(
+                                              10.0), // Change the border shape
+                                        ),
+                                      ),
+                                    ),
+                                    child: const Text('save',
+                                        style: TextStyle(color: Colors.cyan)),
                                   ),
-                                ),
-                              ),
-                              child: const Text('save' ,style: TextStyle(color: Colors.cyan)),
-                            ),
-                          ],
-                        )
-                      ],
-                    ),
-                  )),
-                  const SizedBox(height: 20),
-                  Visibility(
-                    visible: true,
-                    child: buildTaskList(),
-                  )
-                ]
-
-              ),
+                                ],
+                              )
+                            ],
+                          ),
+                        )),
+                    const SizedBox(height: 20),
+                    Visibility(
+                      visible: true,
+                      child: buildTaskList(),
+                    )
+                  ]),
             ),
           ),
         ),
@@ -429,17 +427,19 @@ class _CountdownTimerAppState extends State<CountdownTimerApp> {
   }
 
   Widget buildTaskList() {
-    return
-      Container(
-        height: 900,
-        width:  300,
-      padding: const EdgeInsets.only(left: 10,right: 10, bottom: 15,top: 10),
-        child: ListView.builder(
+    return Container(
+      height: 900,
+      width: 300,
+      padding: const EdgeInsets.only(left: 10, right: 10, bottom: 15, top: 10),
+      child: ListView.builder(
         itemCount: taskList.length,
         itemBuilder: (context, index) {
           final task = taskList[index];
           return ListTile(
-            title: Text(task,style: const TextStyle(color: Colors.white),),
+            title: Text(
+              task,
+              style: const TextStyle(color: Colors.white),
+            ),
             trailing: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
@@ -450,13 +450,14 @@ class _CountdownTimerAppState extends State<CountdownTimerApp> {
                 //   },
                 // ),
                 IconButton(
-                  icon: const Icon(Icons.delete,color: Colors.white,),
+                  icon: const Icon(
+                    Icons.delete,
+                    color: Colors.white,
+                  ),
                   onPressed: () {
                     setState(() {
                       taskList.removeAt(index);
                       removeTasks(task);
-
-
                     });
                   },
                 ),
@@ -464,8 +465,7 @@ class _CountdownTimerAppState extends State<CountdownTimerApp> {
             ),
           );
         },
-    ),
-      );
+      ),
+    );
   }
-
 }

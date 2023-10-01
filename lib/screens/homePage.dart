@@ -30,18 +30,30 @@ class _CountdownTimerAppState extends State<CountdownTimerApp> {
 
   Future<void> saveTasks(List<String> tasks) async {
     print("saved");
-    final prefs1 = await SharedPreferences.getInstance();
-    print("l");
-    // prefs.setStringList('tasks', tasks);
-    // print("l2:");
-    // print(prefs.getStringList('tasks'));
+    final prefs = await SharedPreferences.getInstance();
+    prefs.setStringList('tasks', tasks);
+    print(prefs.getStringList('tasks'));
   }
   Future<List<String>> loadTasks() async {
     print("load");
     final prefs = await SharedPreferences.getInstance();
     final savedTasks = prefs.getStringList('tasks');
-    print(savedTasks);
-    return savedTasks ?? []; // Return an empty list if no tasks are saved
+    return savedTasks ?? [];
+  }
+  void removeTasks(String task) async {
+    print("Remove");
+    print(task);
+    // final prefs = await SharedPreferences.getInstance();
+    //  prefs.remove(task);
+    // print(prefs.getStringList('tasks'));
+    final prefs = await SharedPreferences.getInstance();
+    final savedTasks = prefs.getStringList('tasks');
+
+    if (savedTasks != null) {
+      savedTasks.remove(task); // Remove the task from the list
+      await prefs.setStringList('tasks', savedTasks); // Save the updated list
+    }
+
   }
 
   void startTimer() {
@@ -274,7 +286,7 @@ class _CountdownTimerAppState extends State<CountdownTimerApp> {
                             ),
                             const SizedBox(width: 20),
                             ElevatedButton(
-                              onPressed: () {
+                              onPressed: () async {
                                 if(controllerTasks != null)
                                   {
 
@@ -422,10 +434,6 @@ class _CountdownTimerAppState extends State<CountdownTimerApp> {
         height: 900,
         width:  300,
       padding: const EdgeInsets.only(left: 10,right: 10, bottom: 15,top: 10),
-      // decoration: BoxDecoration(
-      //  color: Colors.white70,
-      //   borderRadius: BorderRadius.circular(10.0),
-      //          ),
         child: ListView.builder(
         itemCount: taskList.length,
         itemBuilder: (context, index) {
@@ -446,6 +454,9 @@ class _CountdownTimerAppState extends State<CountdownTimerApp> {
                   onPressed: () {
                     setState(() {
                       taskList.removeAt(index);
+                      removeTasks(task);
+
+
                     });
                   },
                 ),

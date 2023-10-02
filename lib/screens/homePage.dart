@@ -362,7 +362,7 @@ class _CountdownTimerAppState extends State<CountdownTimerApp> {
               CustomButtonWidget(
                 buttonName: isPaused ? "START" : "PAUSE",
                 onPressed: isPaused ? resumeTimer : pauseTimer,
-                buttonColor: Colors.blue,
+                buttonColor: Colors.brown,
               ),
               if (remainingTime == 0)
                 const Text(

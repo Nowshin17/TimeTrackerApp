@@ -257,7 +257,7 @@ class _CountdownTimerAppState extends State<CountdownTimerApp> {
                                       border: InputBorder.none,
                                       focusColor: Colors.blue,
                                       alignLabelWithHint: true,
-                                      hintText: "What Are you Working On?",
+                                      hintText: "What Are You Working On?",
                                       hintStyle: TextStyle(
                                         color: Colors.grey,
                                         fontSize: 20,
@@ -401,7 +401,6 @@ class _CountdownTimerAppState extends State<CountdownTimerApp> {
                 textChange = newText;
               },
               onEditingComplete: () {}),
-          //Text('This is a modal dialog.'),
           actions: [
             TextButton(
               onPressed: () {
@@ -436,6 +435,9 @@ class _CountdownTimerAppState extends State<CountdownTimerApp> {
         itemBuilder: (context, index) {
           final task = taskList[index];
           return ListTile(
+            leading: CircleAvatar(radius: 13,
+              child: Text((index + 1).toString()), // Tile number
+            ),
             title: Text(
               task,
               style: const TextStyle(color: Colors.white),

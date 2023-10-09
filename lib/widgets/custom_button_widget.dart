@@ -33,7 +33,7 @@ class CustomButtonWidget extends StatelessWidget {
           ),
           backgroundColor: buttonColor,
           textStyle: normalTextStyle,
-          fixedSize: const Size(150, 50)),
+          fixedSize: const Size(180, 50)),
       child: child ??
           Row(
             mainAxisAlignment: MainAxisAlignment.center,

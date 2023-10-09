@@ -426,47 +426,50 @@ class _CountdownTimerAppState extends State<CountdownTimerApp> {
   }
 
   Widget buildTaskList() {
-    return Container(
-      height: 900,
-      width: 300,
-      padding: const EdgeInsets.only(left: 10, right: 10, bottom: 15, top: 10),
-      child: ListView.builder(
-        itemCount: taskList.length,
-        itemBuilder: (context, index) {
-          final task = taskList[index];
-          return ListTile(
-            leading: CircleAvatar(radius: 13,
-              child: Text((index + 1).toString()), // Tile number
-            ),
-            title: Text(
-              task,
-              style: const TextStyle(color: Colors.white),
-            ),
-            trailing: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                // IconButton(
-                //   icon: const Icon(Icons.edit, color: Colors.white,),
-                //   onPressed: () {
-                //     // Implement edit task logic here
-                //   },
-                // ),
-                IconButton(
-                  icon: const Icon(
-                    Icons.delete,
-                    color: Colors.white,
+    return  SingleChildScrollView(
+      child: Container(
+        height: 900,
+        width: 300,
+        padding: const EdgeInsets.only(left: 10, right: 10, bottom: 15, top: 10),
+        child: ListView.builder(
+          physics: const NeverScrollableScrollPhysics(),
+          itemCount: taskList.length,
+          itemBuilder: (context, index) {
+            final task = taskList[index];
+            return ListTile(
+              leading: CircleAvatar(radius: 13,
+                child: Text((index + 1).toString()), // Tile number
+              ),
+              title: Text(
+                task,
+                style: const TextStyle(color: Colors.white),
+              ),
+              trailing: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  // IconButton(
+                  //   icon: const Icon(Icons.edit, color: Colors.white,),
+                  //   onPressed: () {
+                  //     // Implement edit task logic here
+                  //   },
+                  // ),
+                  IconButton(
+                    icon: const Icon(
+                      Icons.delete,
+                      color: Colors.white,
+                    ),
+                    onPressed: () {
+                      setState(() {
+                        taskList.removeAt(index);
+                        removeTasks(task);
+                      });
+                    },
                   ),
-                  onPressed: () {
-                    setState(() {
-                      taskList.removeAt(index);
-                      removeTasks(task);
-                    });
-                  },
-                ),
-              ],
-            ),
-          );
-        },
+                ],
+              ),
+            );
+          },
+        ),
       ),
     );
   }

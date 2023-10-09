@@ -1,16 +1,11 @@
 # promofocus
 
-A new Flutter project.
+A new a Time Tracker flutter app where user can add tasks and track time.
 
-## Getting Started
+## App view
 
-This project is a starting point for a Flutter application.
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+![Screenshot_20231009_225427](https://github.com/Nowshin17/Promofocus/assets/80466283/697b4f77-f197-4247-a480-f56fa64e9146)
+![Screenshot_20231009_225556](https://github.com/Nowshin17/Promofocus/assets/80466283/736c0475-1e2b-4878-ad89-0a0244b9c395)
+![Screenshot_20231009_225530](https://github.com/Nowshin17/Promofocus/assets/80466283/147a8e9f-0b09-4bb3-adc4-8bdc16f6cbb0)
+![Screenshot_20231009_225506](https://github.com/Nowshin17/Promofocus/assets/80466283/08438cdf-6f09-489b-905a-76060830e36b)

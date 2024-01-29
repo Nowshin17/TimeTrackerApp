@@ -43,14 +43,7 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
       ),
       home: SplashScreenPage(),
-      //const SplashScreen(),
-      // routes: {
-      //   // Define other routes as needed for your app
-      //   '/home': (context) => const MyHomePage(title: '',)
-      //
-      //   // ...
-      // },
-      //const MyHomePage(title: '',),
+     
     );
   }
 }

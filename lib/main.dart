@@ -43,7 +43,7 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
       ),
       home: SplashScreenPage(),
-     
+
     );
   }
 }
@@ -59,9 +59,7 @@ class _SplashScreenPageState extends State<SplashScreenPage> {
   @override
   void initState() {
     super.initState();
-    // Add a delay before navigating to the main screen
     Timer(const Duration(seconds: 3), () {
-      // Navigate to the main screen
       Navigator.of(context).pushReplacement(
         MaterialPageRoute(builder: (context) => const MyHomePage(title: '',)),
       );

@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:promofocus/screens/slide_drawer.dart';
-import 'package:promofocus/screens/taskmodel.dart';
 import 'dart:async';
 import '../services/notification_service.dart';
 import '../widgets/custom_button_widget.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class CountdownTimerApp extends StatefulWidget {

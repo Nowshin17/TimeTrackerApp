@@ -1,6 +1,6 @@
-# promofocus
+# Time Tracker APP
 
-A new a Time Tracker flutter app where user can add tasks and track time.
+It is a Tracker Flutter app where users can add tasks and track their time of work and break.
 
 ## App view
 

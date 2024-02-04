@@ -1,4 +1,4 @@
-# Time Tracker APP
+# Time Tracker Mobile Application
 
 It is a Tracker Flutter app where users can add tasks and track their time of work and break.
 
